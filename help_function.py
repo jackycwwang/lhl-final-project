@@ -2,7 +2,7 @@
 from sklearn.metrics import ConfusionMatrixDisplay, RocCurveDisplay
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
-from sklearn.metrics import recall_score
+from sklearn.metrics import recall_score, f1_score
 
 
 def col_name_cnvt(df):
@@ -25,6 +25,7 @@ def evaluate(y_test, y_pred):
     '''print recall and precision, and display confusion matrix'''
     print(f'Recall: {recall_score(y_test, y_pred)}')
     print(f'Precision: {precision_score(y_test, y_pred)}')
+    print(f'F1: {f1_score(y_test, y_pred)}')
     ConfusionMatrixDisplay.from_predictions(y_test, y_pred);
 
 
