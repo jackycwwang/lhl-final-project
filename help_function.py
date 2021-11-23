@@ -21,12 +21,23 @@ def col_name_cnvt(df):
     data.columns = col_labels
     return data
 
-def evaluate(y_test, y_pred):
-    '''print recall and precision, and display confusion matrix'''
-    print(f'Recall: {recall_score(y_test, y_pred)}')
-    print(f'Precision: {precision_score(y_test, y_pred)}')
-    print(f'F1: {f1_score(y_test, y_pred)}')
-    ConfusionMatrixDisplay.from_predictions(y_test, y_pred);
+def soft_to_hard(model, X_test, cutoff):
+    '''convert soft decision to hard decision with given cutoff threshold'''
+    y_probs = model.predict_proba(X_test)
+    y_hats = [1 if y_prob[1] > cutoff else 0 for y_prob in y_probs]
+    return y_hats
+
+def evaluate(y_test, y_pred, cm=True):
+    '''
+    print recall and precision, and display confusion matrix if cm=True
+    return a list of scores
+    '''    
+    recall = recall_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)    
+    if cm:
+        ConfusionMatrixDisplay.from_predictions(y_test, y_pred);
+    return {'recall':recall, 'precision':precision, 'f1':f1}
 
 
 # Import pipeline making libraries
@@ -63,3 +74,32 @@ def create_pipe(clf):
         ('model', clf)
     ])
     return pipe
+
+import numpy as np
+from sklearn.model_selection import StratifiedKFold, KFold
+
+def k_fold(model, X_train, y_train, k=20, cutoff=0.5):
+    k_fold = k        
+    kf = KFold(n_splits=k_fold)
+
+    # do the split and train
+    scores = []
+    for train_idx, test_idx in kf.split(X_train):    
+        X_train_fold, X_test_fold = X_train.iloc[train_idx], X_train.iloc[test_idx]
+        y_train_fold, y_test_fold = y_train.iloc[train_idx], y_train.iloc[test_idx]    
+    
+        model.fit(X_train_fold, y_train_fold)
+        y_hats = soft_to_hard(model, X_test_fold, cutoff=cutoff)
+        score = evaluate(y_test_fold, y_hats, cm=False)
+        scores.append(score)
+
+
+    # calculate the average recall, precision, and f1
+    recall, precision, f1 = [], [], []
+    for score in scores:    
+        recall.append(score['recall'])
+        precision.append(score['precision'])
+        f1.append(score['f1'])
+    print('Mean Recall: ', np.array(recall).mean())
+    print('Mean Precision: ', np.array(precision).mean())
+    print('Mean F1: ', np.array(f1).mean())
