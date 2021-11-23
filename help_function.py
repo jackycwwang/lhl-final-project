@@ -78,13 +78,13 @@ def create_pipe(clf):
 import numpy as np
 from sklearn.model_selection import StratifiedKFold, KFold
 
-def k_fold(model, X_train, y_train, k=20, cutoff=0.5):
+def k_fold(model, X_train, y_train, k=10, cutoff=0.5):
     k_fold = k        
-    kf = KFold(n_splits=k_fold)
+    kf = StratifiedKFold(n_splits=k_fold)
 
     # do the split and train
     scores = []
-    for train_idx, test_idx in kf.split(X_train):    
+    for train_idx, test_idx in kf.split(X_train, y_train):    
         X_train_fold, X_test_fold = X_train.iloc[train_idx], X_train.iloc[test_idx]
         y_train_fold, y_test_fold = y_train.iloc[train_idx], y_train.iloc[test_idx]    
     
@@ -100,6 +100,8 @@ def k_fold(model, X_train, y_train, k=20, cutoff=0.5):
         recall.append(score['recall'])
         precision.append(score['precision'])
         f1.append(score['f1'])
-    print('Mean Recall: ', np.array(recall).mean())
-    print('Mean Precision: ', np.array(precision).mean())
-    print('Mean F1: ', np.array(f1).mean())
+    return {'Mean Recall': np.array(recall).mean(),
+            'Mean Precision': np.array(precision).mean(),
+            'Mean F1': np.array(f1).mean()
+           }
+    
