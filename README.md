@@ -1,5 +1,49 @@
 # Lighthouse Labs Final Project
 
+This is the back-to-back capstone project in Lighthouse Labs Data Science bootcamp after 10-week intensive DS training. 
+
+[](images/lhl_logo.jpg)
+
+
+
+## Topic: Predictive/Preventive Maintenance
+
+### Introduction and Motivation:
+
+Machine failure is unpleasant and unproductive. The production line or business operation has to halt days or weeks  until the machine is back to normal. This can incur a huge lost to businesses.
+
+Predictive maintenance is ML/AI-based program that is capable of monitoring the behavior of a machine, or machine component, predicting or "foreseeing" machine failure, and thus allowing the opportunities to take preventative measures.
+
+Such preventative actions can bring substantial benefits to businesses whose business operation relies on expensive machine/device, such as manufacturing, telecoms, healcare systems, etc. Furthermose, the use case of this technique don't just limit to detecting machine failure. There are many business cases that are similar to this problem domain, which can be generalized to detect anomaly events, such as fraud detection, image denoising, cypersecurity, etc.
+
+
+[](images/predictive_maintenance.jpg)
+*Source: [PCI](https://www.pcimag.com/articles/106046-predictive-maintenance-and-its-role-in-improving-efficiency)*
+
+
+
+
+#### Challenge:
+
+### Dataset:
+
+
+### Approaches:
+
+
+### Findings:
+
+
+
+### Folder and Files:
+
+
+### Tools used:
+
+
+### What can go Further:
+
+
 Source:
 
 Stephan Matzka, School of Engineering - Technology and Life, Hochschule fÃ¼r Technik und Wirtschaft Berlin, 12459 Berlin, Germany, stephan.matzka '@' htw-berlin.de
