@@ -30,7 +30,7 @@ There are quite a few challenges, which can make failure prediction inaccurate, 
 3. The distribution of the normal case may overlap with the distribution of the anomaly case, which makes the seperation difficult resulting in low performance in modeling.
 4. The feature space may be small, which may hinder the ML/AI model to find accurate underlying patterns. 
 
-### Dataset:
+### Dataset
 
 This dataset is taken from [UCI-Machine Learning Depository](https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset#)
 
@@ -64,26 +64,83 @@ The dataset consists of 10 000 data points stored as rows with 14 features in co
 If at least one of the above failure modes is true, the process fails and the `Machine failure` label is set to 1. It is therefore not transparent to the machine learning method, which of the failure modes has caused the process to fail.
 
 
-### Approaches:
+### Approaches
 Since the dataset in this domain usually consists of mostly numerical values, the feature engineering is usually not so required, and the preprocessing steps are also minimal. We sould only use one-hot encoding for categories and scaling techniques for numerics.
 
-We explored this dataset in three different approaches: 
+#### Three different approaches
 - Classic Machine Learning
 - Artificial Neural Network/Deep Learning
 - Autoencoders
 
-And we followed the following procedure:
+#### Procedure
 1. Exploratory Data Analysis
 2. Build a baseline model - Logistic Regression
+   - Use soft decision
 3. Build a Machine Learning model - Random Forest
-4. Build a Deep Learning model - ANN 
+   - Use soft decision
+4. Build a Deep Learning model - MLP 
 5. Build an Autoencoder model - Undercomplete model
 
-### Findings:
-- The failure percentage is about 3.4%
+#### Metrics used
+- Recall
+- Precision
+- F1
+
+### Findings
+
+#### EDA
+- The percentage of failure is about 3.4%
+
 ![](images/failure_percentage.jpg)
 
-### Folder and Files:
+- The pair-wised distribution shown here:
+
+![](images/pair_grid.jpg)
+
+#### Baseline Model
+- Performance:
+
+![](images/logistic_regression.jpg)
+
+#### Random Forest
+- Performance:
+
+![](images/random_forest.jpg)
+
+*- Note: ROC curve is used to find the cutoff threshold for soft decision in both Logistic Regression and Random Forest.*
+
+![](images/roc_curve.jpg)
+
+#### Deep Learning
+
+- Training process: 
+
+The following graph shows the recall and false positive metrics used in DL training on both Training set and validation set.
+
+![](images/dl_train_loss.jpg)
+
+- Performance:
+
+![](images/deep_learning.jpg)
+
+#### Autoencoder
+
+- Training loss:
+
+![](images/ae_train_loss.jpg)
+
+- Performance:
+
+![](images/autoencoder.jpg)
+
+This result is interesting and out of our expectation. As Autoencoder has been recently used for extremely rare anomaly detection; however, our result is really suffering compared to the model above. As thus, we have tried many different architectures, different metrics, and other configurations, the result is still barely improving. After a few days trying to figure out where the problem is, we plot the distribution for reconstruction loss in normal and anomaly data as below:
+
+![](images/ae_distribution.jpg)
+
+We came up to some conclusion:
+- This could be due to non-separable underlying patterns
+- Feature dimensionality is too low since we only have eight features
+- May need more data points
 
 
 ### Tools used:
