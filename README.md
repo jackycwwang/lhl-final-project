@@ -49,7 +49,7 @@ The dataset consists of 10 000 data points stored as rows with 14 features in co
 - `Tool wear [min]`: The quality variants H/M/L add 5/3/2 minutes of tool wear to the used tool in the process. and a
 - `Machine failure`: label that indicates, whether the machine has failed in this particular datapoint for any of the following failure modes are true.
 
-#### The machine failure consists of five independent failure modes
+The machine failure consists of five independent failure modes
 
 - tool wear failure (`TWF`): the tool will be replaced of fail at a randomly selected tool wear time between 200 â€“ 240 mins (120 times in our dataset). At this point in time, the tool is replaced 69 times, and fails 51 times (randomly assigned).
 - heat dissipation failure (`HDF`): heat dissipation causes a process failure, if the difference between air- and process temperature is below 8.6 K and the toolâ€™s rotational speed is below 1380 rpm. This is the case for 115 data points.
