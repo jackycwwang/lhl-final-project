@@ -15,8 +15,6 @@ Machine failure is unpleasant and unproductive. The production line or business 
 Predictive maintenance is ML/AI-based program that is capable of monitoring the behavior of a machine, or machine component, predicting or "foreseeing" machine failure, and thus allowing the opportunities to take preventative measures.
 
 Such preventative actions can bring substantial benefits to businesses whose business operation relies on expensive machine/device, such as manufacturing, telecoms, healcare systems, etc. Furthermose, the use case of this technique don't just limit to detecting machine failure. There are many business cases that are similar to this problem domain, which can be generalized to detect anomaly events, such as fraud detection, image denoising, cypersecurity, etc.
-![lhl_logo](https://user-images.githubusercontent.com/1385633/143627797-6437fef6-978f-471d-9f08-b2689dde58a2.jpg)
-
 
 ![](images/predictive_maintenance.jpg)
 
