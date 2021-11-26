@@ -40,22 +40,22 @@ The original credit goes to : Stephan Matzka, School of Engineering - Technology
 #### Here are the detailed dataset description :
 The dataset consists of 10 000 data points stored as rows with 14 features in columns
 
-- **UID**: unique identifier ranging from 1 to 10000
-- **Product ID**: consisting of a letter L, M, or H for low (50% of all products), medium (30%) and high (20%) as product quality variants and a variant-specific serial number
-- **Air temperature [K]**: generated using a random walk process later normalized to a standard deviation of 2 K around 300 K
-- **Process temperature [K]**: generated using a random walk process normalized to a standard deviation of 1 K, added to the air temperature plus 10 K.
-- **Rotational speed [rpm]**: calculated from a power of 2860 W, overlaid with a normally distributed noise
-- **Torque [Nm]**: torque values are normally distributed around 40 Nm with a Ïƒ = 10 Nm and no negative values.
-- **Tool wear [min]**: The quality variants H/M/L add 5/3/2 minutes of tool wear to the used tool in the process. and a
-- **'Machine failure'**: label that indicates, whether the machine has failed in this particular datapoint for any of the following failure modes are true.
+- `UID`: unique identifier ranging from 1 to 10000
+- `Product ID`: consisting of a letter L, M, or H for low (50% of all products), medium (30%) and high (20%) as product quality variants and a variant-specific serial number
+- `Air temperature [K]`: generated using a random walk process later normalized to a standard deviation of 2 K around 300 K
+- `Process temperature [K]`: generated using a random walk process normalized to a standard deviation of 1 K, added to the air temperature plus 10 K.
+- `Rotational speed [rpm]`: calculated from a power of 2860 W, overlaid with a normally distributed noise
+- `Torque [Nm]`: torque values are normally distributed around 40 Nm with a Ïƒ = 10 Nm and no negative values.
+- `Tool wear [min]`: The quality variants H/M/L add 5/3/2 minutes of tool wear to the used tool in the process. and a
+- `Machine failure`: label that indicates, whether the machine has failed in this particular datapoint for any of the following failure modes are true.
 
 #### The machine failure consists of five independent failure modes
 
-- tool wear failure (**TWF**): the tool will be replaced of fail at a randomly selected tool wear time between 200 â€“ 240 mins (120 times in our dataset). At this point in time, the tool is replaced 69 times, and fails 51 times (randomly assigned).
-- heat dissipation failure (**HDF**): heat dissipation causes a process failure, if the difference between air- and process temperature is below 8.6 K and the toolâ€™s rotational speed is below 1380 rpm. This is the case for 115 data points.
-- power failure (**PWF**): the product of torque and rotational speed (in rad/s) equals the power required for the process. If this power is below 3500 W or above 9000 W, the process fails, which is the case 95 times in our dataset.
-- overstrain failure (**OSF**): if the product of tool wear and torque exceeds 11,000 minNm for the L product variant (12,000 M, 13,000 H), the process fails due to overstrain. This is true for 98 datapoints.
-- random failures (**RNF**): each process has a chance of 0,1 % to fail regardless of its process parameters. This is the case for only 5 datapoints, less than could be expected for 10,000 datapoints in our dataset.
+- tool wear failure (`TWF`): the tool will be replaced of fail at a randomly selected tool wear time between 200 â€“ 240 mins (120 times in our dataset). At this point in time, the tool is replaced 69 times, and fails 51 times (randomly assigned).
+- heat dissipation failure (`HDF`): heat dissipation causes a process failure, if the difference between air- and process temperature is below 8.6 K and the toolâ€™s rotational speed is below 1380 rpm. This is the case for 115 data points.
+- power failure (`PWF`): the product of torque and rotational speed (in rad/s) equals the power required for the process. If this power is below 3500 W or above 9000 W, the process fails, which is the case 95 times in our dataset.
+- overstrain failure (`OSF`): if the product of tool wear and torque exceeds 11,000 minNm for the L product variant (12,000 M, 13,000 H), the process fails due to overstrain. This is true for 98 datapoints.
+- random failures (`RNF`): each process has a chance of 0,1 % to fail regardless of its process parameters. This is the case for only 5 datapoints, less than could be expected for 10,000 datapoints in our dataset.
 
 (Note: This project does not take into the consideration to these different failure modes)
 
@@ -87,21 +87,21 @@ Since the dataset in this domain usually consists of mostly numerical values, th
 ### Findings
 
 #### EDA
-- The percentage of failure is about 3.4%
+The percentage of failure is about 3.4%
 
 ![](images/failure_percentage.jpg)
 
-- The pair-wised distribution shown here:
+The pair-wised distribution shown here:
 
 ![](images/pair_grid.jpg)
 
 #### Baseline Model
-- Performance:
+Performance:
 
 ![](images/logistic_regression.jpg)
 
 #### Random Forest
-- Performance:
+Performance:
 
 ![](images/random_forest.jpg)
 
@@ -111,45 +111,62 @@ Since the dataset in this domain usually consists of mostly numerical values, th
 
 #### Deep Learning
 
-- Training process: 
+Training process: 
 
 The following graph shows the recall and false positive metrics used in DL training on both Training set and validation set.
 
 ![](images/dl_train_loss.jpg)
 
-- Performance:
+Performance:
 
 ![](images/deep_learning.jpg)
 
 #### Autoencoder
 
-- Training loss:
+Training loss:
 
 ![](images/ae_train_loss.jpg)
 
-- Performance:
+Performance:
 
 ![](images/autoencoder.jpg)
 
-This result is interesting and out of our expectation. As Autoencoder has been recently used for extremely rare anomaly detection; however, our result is really suffering compared to the model above. As thus, we have tried many different architectures, different metrics, and other configurations, the result is still barely improving. After a few days trying to figure out where the problem is, we plot the distribution for reconstruction loss in normal and anomaly data as below:
+This result is interesting and beyond our expectations. As Autoencoder has been recently used for extremely rare anomaly detection; however, our result is really suffering compared to the model above. As thus, we tried many different architectures, different metrics, and other configurations, the result is still barely improving. After a few days trying to figure out where the problem is, we plot the distribution for reconstruction loss in normal and anomaly data as below:
 
 ![](images/ae_distribution.jpg)
 
-We came up to some conclusion:
+We came up with some conclusions:
 - This could be due to non-separable underlying patterns
 - Feature dimensionality is too low since we only have eight features
 - May need more data points
 
+### Tools used
 
-### Tools used:
+- Scikit-Learn
+- Tensorflow Keras
+- Matplotlib.pyplot
+- Seaborn
 
+### Folders and Files
+- **data**: Where the dataset is located
+- **dl_model**: The persisted trained Deep Learning model
+- **images**: images used for this README
+- **1.0 Exploratory Data Analysis.ipynb**: EDA analysis
+- **2.0 Creating a Baseline Model.ipynb**: Baseline model creation
+- **3.0 Random Forest Model.ipynb**: Random Forest model creation
+- **4.0 Deep Learning Model.ipynb**: Deep neural network learning model creation
+- **5.0 Autoencoder Model.ipynb**: Autoencoder model creation
+- **help_function.py**: Various refactored help functions used in all modeling tasks to make the code "DRY", and looking good
 
 ### What can go Further:
+- Combination of Online and Active Learning
+- Unsupervised anomaly detection
+- Various different kind of autoencoders
 
-
-
-### Reference:
+### Reference
 - Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
 
-
+### Acknowledgement
+- My deepest gratitude goes to the support from the XTAP program from [Invest Ottawa](https://www.investottawa.ca/), who makes my learning and thus this project possible!! 
+- The DS learning journey in [Lighthouse Labs](https://www.lighthouselabs.ca/) is truly exclusive. It was challenging and fun. The design of the bootcamp can really accelerate the learning that I have never experienced before making me a well-rounded prosperous Data Scientist. Deeply grateful for offering such wonderful bootcamp!!
 
