@@ -80,9 +80,9 @@ Since the dataset in this domain usually consists of mostly numerical values, th
 5. Build an Autoencoder model - Undercomplete model
 
 #### Metrics used
-- Recall
-- Precision
-- F1
+- Recall: The most important metrics
+- Precision: Can't go too low as well
+- F1: Overall indicator of good model
 
 ### Findings
 
@@ -91,9 +91,13 @@ The percentage of failure is about 3.4%
 
 ![](images/failure_percentage.jpg)
 
-The pair-wised distribution shown here:
+The pair-wised distribution is shown here:
 
 ![](images/pair_grid.jpg)
+
+- **Rotational speed** is skewed to the right.
+- **Air temperature** seems to be bimodel.
+- **Tool wear** is mostly uniform.
 
 #### Baseline Model
 Performance:
@@ -105,7 +109,7 @@ Performance:
 
 ![](images/random_forest.jpg)
 
-*- Note: ROC curve is used to find the cutoff threshold for soft decision in both Logistic Regression and Random Forest.*
+*Note: ROC curve is used to find the cutoff threshold for soft decision in both Logistic Regression and Random Forest.*
 
 ![](images/roc_curve.jpg)
 
@@ -113,7 +117,7 @@ Performance:
 
 Training process: 
 
-The following graph shows the recall and false positive metrics used in DL training on both Training set and validation set.
+The following graph shows the **recall** and **false positive(fp)** metrics used in DL training on both Training set and validation set.
 
 ![](images/dl_train_loss.jpg)
 
@@ -125,20 +129,24 @@ Performance:
 
 Training loss:
 
+The following graph shows the Mean Abosolute Error (**MAE**) loss in Training data and validation data:
+
 ![](images/ae_train_loss.jpg)
 
 Performance:
 
 ![](images/autoencoder.jpg)
 
-This result is interesting and beyond our expectations. As Autoencoder has been recently used for extremely rare anomaly detection; however, our result is really suffering compared to the model above. As thus, we tried many different architectures, different metrics, and other configurations, the result is still barely improving. After a few days trying to figure out where the problem is, we plot the distribution for reconstruction loss in normal and anomaly data as below:
+This result is interesting and beyond our expectations. As Autoencoder has been recently used for extremely rare anomaly detection; however, our result is really suffering compared to the model above. As thus, we tried many different architectures, different metrics, and other configurations, the result is still barely improving. 
+
+After a few days trying to figure out where the problem is, we plot the distribution for reconstruction loss in normal and anomaly data as below:
 
 ![](images/ae_distribution.jpg)
 
 We came up with some conclusions:
-- This could be due to non-separable underlying patterns
-- Feature dimensionality is too low since we only have eight features
-- May need more data points
+- We realized that the problem could be due to non-separable underlying patterns
+- The Autoencoder suffers because the feature dimensionality is too low since we only have eight features
+- 10,000 data points not be enough, we may need more data points
 
 ### Tools used
 
